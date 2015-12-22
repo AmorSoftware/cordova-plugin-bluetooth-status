@@ -153,6 +153,7 @@ public class BluetoothStatus extends CordovaPlugin {
             
               if (action.equals(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)) {
                   final int connectionstate = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, BluetoothAdapter.ERROR);
+                    Log.e(LOG_TAG, "Amor Bluetooth connection state is " + connectionstate);
                    switch (connectionstate) {
                     case BluetoothAdapter.STATE_CONNECTED:
                         Log.e(LOG_TAG, "Bluetooth connected to headset");
