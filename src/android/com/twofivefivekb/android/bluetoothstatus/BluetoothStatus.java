@@ -96,8 +96,9 @@ public class BluetoothStatus extends CordovaPlugin {
             }
             
             // test if BT is connected to a headset
+            Log.e(LOG_TAG, "Amor Bluetooth constants headset" + BluetoothProfile.HEADSET + " Connected " + BluetoothProfile.STATE_CONNECTED );
             if (bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET) == BluetoothProfile.STATE_CONNECTED ) {
-                Log.e(LOG_TAG, "Bluetooth connected to headset");
+                Log.e(LOG_TAG, "Amor Bluetooth connected to headset");
                 sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
             } else {
                 Log.e(LOG_TAG, "Bluetooth is not connected to a headset " + bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET));
