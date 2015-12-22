@@ -12,6 +12,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothHeadset;
+import android.media.AudioManager;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +28,7 @@ public class BluetoothStatus extends CordovaPlugin {
     private static final String LOG_TAG = "BluetoothStatus";
     private BluetoothManager bluetoothManager;
     private BluetoothAdapter bluetoothAdapter;
+    private AudioManager mAudioManager;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -58,6 +61,7 @@ public class BluetoothStatus extends CordovaPlugin {
 
         bluetoothManager = (BluetoothManager) webView.getContext().getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
+        mAudioManager = (AudioManager) webView.getContext().getSystemService(Context.AUDIO_SERVICE);
 
         // Register for broadcasts on BluetoothAdapter state change
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -164,10 +168,16 @@ public class BluetoothStatus extends CordovaPlugin {
                     case BluetoothProfile.STATE_CONNECTED:
                         Log.e(LOG_TAG, "Bluetooth headset connected");
                         sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
+                        mAudioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                        mAudioManager.startBluetoothSco();
+                        mAudioManager.setBluetoothScoOn(true);
                         break;
                     case BluetoothProfile.STATE_DISCONNECTED:
                         Log.e(LOG_TAG, "Bluetooth headset disconnected");
                         sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.disconnected');");
+                        mAudioManager.setMode(AudioManager.MODE_NORMAL);
+                        mAudioManager.stopBluetoothSco();
+                        mAudioManager.setBluetoothScoOn(false);
                         break;
                 }
             }
