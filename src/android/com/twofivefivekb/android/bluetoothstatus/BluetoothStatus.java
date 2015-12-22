@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -92,6 +93,14 @@ public class BluetoothStatus extends CordovaPlugin {
             } else {
                 Log.e(LOG_TAG, "BluetoothLE is supported");
                 sendJS("javascript:cordova.plugins.BluetoothStatus.hasBTLE = true;");
+            }
+            
+            // test if BT is connected to a headset
+            if (bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET) == BluetoothProfile.STATE_CONNECTED ) {
+                Log.e(LOG_TAG, "Bluetooth connected to headset");
+                sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
+            } else {
+                Log.e(LOG_TAG, "Bluetooth is not connected to a headset " + bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET));
             }
 
             //test if BT enabled
