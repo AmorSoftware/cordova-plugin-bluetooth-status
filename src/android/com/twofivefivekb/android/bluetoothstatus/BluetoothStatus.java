@@ -8,6 +8,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.bluetooth;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
@@ -131,20 +132,33 @@ public class BluetoothStatus extends CordovaPlugin {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-             Log.e(LOG_TAG, "Amor action of intent is  " + action);
-            
-              if (action.equals(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)) {
-                  final int connectionstate = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, BluetoothAdapter.ERROR);
-                    Log.e(LOG_TAG, "Amor Bluetooth connection state is " + connectionstate);
-                   switch (connectionstate) {
-                    case BluetoothAdapter.STATE_CONNECTED:
-                        Log.e(LOG_TAG, "Bluetooth connected to headset");
-                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
+        if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch (state) {
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.e(LOG_TAG, "Bluetooth was disabled");
+
+                        sendJS("javascript:cordova.plugins.BluetoothStatus.BTenabled = false;");
+                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.disabled');");
 
                         break;
-                   }
-                  
-              }
+                    case BluetoothAdapter.STATE_ON:
+                        Log.e(LOG_TAG, "Bluetooth was enabled");
+
+                        sendJS("javascript:cordova.plugins.BluetoothStatus.BTenabled = true;");
+                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.enabled');");
+
+                        break;
+                }
+            }
+
+        
+             if (action.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
+                final int newState = intent.getIntExtra(BluetoothProfile.EXTRA_STATE, 0);
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                     sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
+                }
+             }
             
             
             
