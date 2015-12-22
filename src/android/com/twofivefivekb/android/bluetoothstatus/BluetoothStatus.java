@@ -131,25 +131,7 @@ public class BluetoothStatus extends CordovaPlugin {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                switch (state) {
-                    case BluetoothAdapter.STATE_OFF:
-                        Log.e(LOG_TAG, "Bluetooth was disabled");
-
-                        sendJS("javascript:cordova.plugins.BluetoothStatus.BTenabled = false;");
-                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.disabled');");
-
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        Log.e(LOG_TAG, "Bluetooth was enabled");
-
-                        sendJS("javascript:cordova.plugins.BluetoothStatus.BTenabled = true;");
-                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.enabled');");
-
-                        break;
-                }
-            }
+             Log.e(LOG_TAG, "Amor action of intent is  " + action);
             
               if (action.equals(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)) {
                   final int connectionstate = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, BluetoothAdapter.ERROR);
