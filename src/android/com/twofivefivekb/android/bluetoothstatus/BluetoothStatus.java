@@ -11,6 +11,7 @@ import org.json.JSONException;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -151,18 +152,12 @@ public class BluetoothStatus extends CordovaPlugin {
                 }
             }
             
-              if (action.equals(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)) {
-                  final int connectionstate = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, BluetoothAdapter.ERROR);
-                    Log.e(LOG_TAG, "Amor Bluetooth connection state is " + connectionstate);
-                   switch (connectionstate) {
-                    case BluetoothAdapter.STATE_CONNECTED:
-                        Log.e(LOG_TAG, "Bluetooth connected to headset");
-                        sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
-
-                        break;
-                   }
-                  
-              }
+            if (action.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
+              final int newState = intent.getIntExtra(BluetoothProfile.EXTRA_STATE, 0);
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
+                }
+            }
             
             
             
