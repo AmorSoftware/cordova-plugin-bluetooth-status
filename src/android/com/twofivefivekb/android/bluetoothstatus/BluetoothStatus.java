@@ -152,13 +152,7 @@ public class BluetoothStatus extends CordovaPlugin {
                 }
             }
 
-        
-             if (action.equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
-                final int newState = intent.getIntExtra(BluetoothProfile.EXTRA_STATE, 0);
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                     sendJS("javascript:cordova.fireWindowEvent('BluetoothStatus.connected');");
-                }
-             }
+
             
             
             
