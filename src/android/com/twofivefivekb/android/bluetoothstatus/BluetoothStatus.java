@@ -62,6 +62,12 @@ public class BluetoothStatus extends CordovaPlugin {
         // Register for broadcasts on BluetoothAdapter state change
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         mcordova.getActivity().registerReceiver(mReceiver, filter);
+        
+        //Register for Bluetooth Headset broadcasts
+           IntentFilter intentFilter = new IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
+            intentFilter.addAction(BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED);
+            mcordova.getActivity().registerReceiver(mReceiver, intentFilter);
+        
     }
 
     private void enableBT() {
