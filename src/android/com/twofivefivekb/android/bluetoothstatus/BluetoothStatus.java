@@ -13,7 +13,7 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothHeadset;
 import android.media.AudioManager;
-import com.google.android.gms.location.DetectedActivity;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
