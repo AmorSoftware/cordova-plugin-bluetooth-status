@@ -40,6 +40,12 @@ public class BluetoothStatus extends CordovaPlugin {
         } else if (action.equals("promptForBT")) {
             promptForBT();
             return true;
+        } else if (action.equals("turnOnSpeakerPhone")) {
+            turnOnSpeakerPhone();
+            return true;
+        } else if (action.equals("turnOffSpeakerPhone")) {
+            turnOffSpeakerPhone();
+            return true;
         } else if(action.equals("initPlugin")) {
             initPlugin();
             return true;
@@ -75,7 +81,20 @@ public class BluetoothStatus extends CordovaPlugin {
             mcordova.getActivity().registerReceiver(mReceiver, intentFilter);
         
     }
-
+ mAudioManager.setBluetoothScoOn(false);
+ 
+  private void turnOnSpeakerPhone() {
+        //enable speakerphone of device 
+        mAudioManager.setMode(AudioManager.MODE_IN_CALL);
+        mAudioManager.setSpeakerphoneOn(true);
+    }
+    
+     private void turnOffSpeakerPhone() {
+        //enable speakerphone of device 
+        mAudioManager.setMode(AudioManager.MODE_NORMAL);
+        mAudioManager.setSpeakerphoneOn(false);
+    }
+    
     private void enableBT() {
         //enable bluetooth without prompting
         if (bluetoothAdapter == null) {
