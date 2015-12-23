@@ -81,8 +81,7 @@ public class BluetoothStatus extends CordovaPlugin {
             mcordova.getActivity().registerReceiver(mReceiver, intentFilter);
         
     }
- mAudioManager.setBluetoothScoOn(false);
- 
+
   private void turnOnSpeakerPhone() {
         //enable speakerphone of device 
         mAudioManager.setMode(AudioManager.MODE_IN_CALL);
