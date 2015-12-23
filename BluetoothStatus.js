@@ -10,6 +10,15 @@ BluetoothStatus.initPlugin = function() {
     }, false);
 };
 
+BluetoothStatus.turnOffSpeakerPhone = function() {
+    exec(null, null, "BluetoothStatus", "turnOffSpeakerPhone", []);
+};
+
+
+BluetoothStatus.turnOnSpeakerPhone = function() {
+    exec(null, null, "BluetoothStatus", "turnOnSpeakerPhone", []);
+};
+
 BluetoothStatus.enableBT = function() {
     exec(null, null, "BluetoothStatus", "enableBT", []);
 };
